@@ -6,6 +6,8 @@ import numpy as np
 
 path = "/Users/shejoev/Documents/scan/CT-1/log_1-1/Denoised" # change this to your folder path
 image_path_list = os.listdir(path) # get a list of all files in the folder
+image_path_list.sort()
+print(image_path_list)
 with imageio.get_writer("new_image.tiff") as new_image: # create a new .tiff image
 
     for image_path in image_path_list: # loop through each file
