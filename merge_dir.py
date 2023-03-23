@@ -11,7 +11,7 @@ print(image_path_list)
 with imageio.get_writer("new_image.tiff") as new_image: # create a new .tiff image
 
     for image_path in image_path_list: # loop through each file
-        if image_path.endswith(".tiff"): # check if it is a .tiff file
+        if image_path.endswith(".tiff") or image_path.endswith(".tif"): # check if it is a .tiff file
             with open(path + "/" + image_path, "r+b") as f: # open the file as binary mode
                 with Image.open(f) as image: # read the file as an image using PIL
                     resized_image = resizeimage.resize_cover(image, [200, 200]) # resize the image to 200x200 pixels using python-resize-image
