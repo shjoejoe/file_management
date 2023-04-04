@@ -1,3 +1,5 @@
+# original files are .ima format, to convert them into .tiff format
+
 import os
 import numpy as np
 import tifffile as tif
