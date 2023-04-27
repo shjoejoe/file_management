@@ -4,11 +4,11 @@ from PIL import Image
 from resizeimage import resizeimage
 import numpy as np 
 
-path = "/Users/shejoev/Documents/scan/CT-1/log_1-1/Denoised" # change this to your folder path
+path = "xxxxxx" # change this to your folder path that contains files you want to merge with
 image_path_list = os.listdir(path) # get a list of all files in the folder
 image_path_list.sort()
 print(image_path_list)
-with imageio.get_writer("new_image.tiff") as new_image: # create a new .tiff image
+with imageio.get_writer("new_image.tiff") as new_image: # create a new .tiff image, rename it to avoid duplicate file names
 
     for image_path in image_path_list: # loop through each file
         if image_path.endswith(".tiff") or image_path.endswith(".tif"): # check if it is a .tiff file
