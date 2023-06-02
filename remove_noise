@@ -1,0 +1,58 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Oct  7 10:38:34 2022
+This is CT project example to remove noises. 
+Only for testing. 
+# -*- coding: utf-8 -*-
+
+import os
+import sys
+import glob
+import matplotlib.pyplot as plt
+import numpy as np
+import time
+import cupy as cp
+import cupyx as cx
+import nrrd
+import torch
+from cupyx.scipy.ndimage import binary_erosion, binary_fill_holes, binary_dilation
+
+# Densitet hos luft = 1.225 kg/m³ = värde 0
+# Densitet hos vatten = 1000 kg/m3 = värde 1000
+
+os.environ['PATH'] += 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin'
+os.environ['PATH'] += 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64'
+
+#print(os.environ['PATH'])
+
+def main():
+    fnt = 32
+    plt.close('all')
+    print(torch.cuda.is_available())
+    print(torch.cuda.current_device())
+    print(torch.cuda.get_device_name(0))
+    print(cp.get_default_memory_pool().used_bytes()/10**9)
+    nrrd_path = r"D:\CT-Tör bilder\log_10-1\Reshaped\10-1_rs.nrrd"
+    npy_path = r"D:\CT-Tör bilder\log_10-1\Reshaped\10-1_rs.npy"
+    #im_noise, hdr = nrrd.read(nrrd_path)
+    ims_noise = cp.load(npy_path)
+    print(cp.get_default_memory_pool().used_bytes()/10**9)
+    for i in cp.arange(0, ims_noise.shape[0]):
+        im_noise = cp.take(ims_noise, i, axis=0)
+        im_noise = cp.where(im_noise != 0, 1, im_noise)
+        if i == 100:
+            fig, axs = plt.subplots(1, 3)
+            axs[0].imshow(im_noise.get())
+        im_noise = binary_erosion(im_noise, iterations=1)
+        if i == 300:
+            axs[1].imshow(im_noise.get())
+        im_noise = binary_fill_holes(im_noise)
+        if i == 300:
+            axs[1].imshow(im_noise.get())
+            print(a)
+    return None
+
+
+
+if __name__ == '__main__':
+    main()
